@@ -1,7 +1,3 @@
-Aqui está uma versão atualizada do seu README, incorporando as melhorias que você mencionou:
-
----
-
 # Lista de Tarefa - ResTIC 36
 
 ## Descrição do Projeto!
