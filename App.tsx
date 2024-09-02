@@ -1,16 +1,18 @@
+import { Feather } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
 import {
+  FlatList,
+  Keyboard,
   StyleSheet,
   Text,
-  View,
-  FlatList,
   TextInput,
-  TouchableOpacity,
+  View,
+  Alert,
 } from "react-native";
-import { Task } from "./src/components/Task";
 import { CardNumber } from "./src/components/CardNumber";
-import { Feather } from "@expo/vector-icons";
+import { InputAddTask } from "./src/components/InputAddTask";
+import { Task } from "./src/components/Task";
 
 export default function App() {
   const [tasks, setTasks] = useState<
@@ -18,10 +20,18 @@ export default function App() {
   >([]);
   const [taskText, setTaskText] = useState("");
   const [countTask, setCountTask] = useState(0);
+  const [countOpen, setCountOpen] = useState(0);
+  const [countDone, setCountDone] = useState(0);
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<TextInput>(null);
 
   const handleAddTask = () => {
+    if (inputRef.current) {
+      inputRef.current.blur();
+      setTaskText("");
+    }
+    Keyboard.dismiss();
+
     if (!taskText.trim()) {
       return alert("Por favor, digite uma tarefa");
     }
@@ -31,59 +41,97 @@ export default function App() {
     }
 
     const newTask = { description: taskText, checked: false };
-    setTasks([...tasks, newTask]);
-    setTaskText("");
-
-    if (inputRef.current) {
-      inputRef.current.blur();
-    }
+    const updatedTasks = [...tasks, newTask];
+    const sortedTasks = updatedTasks.sort(
+      (a, b) => Number(a.checked) - Number(b.checked)
+    );
+    setTasks(sortedTasks);
   };
 
   useEffect(() => {
     setCountTask(tasks.length);
+    setCountOpen(tasks.filter((task) => !task.checked).length);
+    setCountDone(tasks.filter((task) => task.checked).length);
   }, [tasks]);
+
+  function handleTaskChangeStatus(taskToChange: {
+    description: string;
+    checked: boolean;
+  }) {
+    const updatedTasks = tasks.map((task) =>
+      task.description === taskToChange.description
+        ? { ...task, checked: !task.checked }
+        : task
+    );
+
+    const sortedTasks = updatedTasks.sort(
+      (a, b) => Number(a.checked) - Number(b.checked)
+    );
+
+    setTasks(sortedTasks);
+  }
+
+  function handleTaskDelete(taskToDelete: {
+    description: string;
+    checked: boolean;
+  }) {
+    Alert.alert(
+      "Atenção!",
+      `Tem certeza que deseja excluir esta tarefa?\n\nTarefa:\t\t${taskToDelete.description}`,
+      [
+        {
+          text: "Não, não quero excluir.",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Sim, sim quero excluir.",
+          onPress: () => {
+            const updatedTasks = tasks.filter(
+              (task) => task.description !== taskToDelete.description
+            );
+            setTasks(updatedTasks);
+          },
+          style: "default",
+        },
+      ]
+    );
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          ref={inputRef}
-          style={styles.inputNewTask}
-          placeholder="Adicione uma nova tarefa"
-          placeholderTextColor="white"
-          value={taskText}
-          onChangeText={setTaskText}
-        />
-        <TouchableOpacity
-          style={styles.inputButtonNewTask}
-          onPress={handleAddTask}
-        >
-          <Feather name="plus-square" size={24} color="#FFF" />
-        </TouchableOpacity>
-      </View>
+      <InputAddTask
+        inputRef={inputRef}
+        onPress={handleAddTask}
+        onChangeText={setTaskText}
+        value={taskText}
+      />
 
       <View style={styles.cardContainer}>
-        <CardNumber />
-        <CardNumber />
-        <CardNumber />
+        <CardNumber title="Cadastradas" num={countTask} color="#1E1E1E" />
+        <CardNumber title="Em aberto" num={countOpen} color="#E88A1A" />
+        <CardNumber title="Finalizadas" num={countDone} color="#0E9577" />
       </View>
 
-      <Text style={styles.taskCount}>Lista de Tarefas: {countTask}</Text>
-
       <View style={styles.tasks}>
+        <Text style={styles.tasksText}>Tarefas:</Text>
         <FlatList
           data={tasks}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => <Task task={item} />}
+          renderItem={({ item }) => (
+            <Task
+              title={item.description}
+              status={item.checked}
+              onCheck={() => handleTaskChangeStatus(item)}
+              onRemove={() => handleTaskDelete(item)}
+            />
+          )}
           ListEmptyComponent={() => (
             <View style={styles.listEmptyComponent}>
               <Text style={styles.listEmptyComponentText}>
-                Você ainda não tem tarefas!
-              </Text>
-              <Text style={styles.listEmptyComponentText}>
-                Crie uma tarefa para começar.
+                Você ainda não tem tarefas!{"\n"}Crie uma tarefa para começar.
               </Text>
             </View>
           )}
@@ -104,39 +152,12 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 
-  inputContainer: {
-    flexDirection: "row",
-    width: "100%",
-  },
-
-  inputNewTask: {
-    backgroundColor: "#252527",
-    flex: 1,
-    padding: 16,
-    borderRadius: 4,
-    color: "#fff",
-  },
-
-  inputButtonNewTask: {
-    backgroundColor: "#1e1e1e",
-    padding: 16,
-    borderRadius: 4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   cardContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     gap: 16,
-  },
-
-  taskCount: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 
   tasks: {
@@ -153,5 +174,12 @@ const styles = StyleSheet.create({
   listEmptyComponentText: {
     color: "#fff",
     fontSize: 16,
+  },
+
+  tasksText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 16,
   },
 });

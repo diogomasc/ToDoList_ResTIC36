@@ -1,10 +1,17 @@
 import { Container, CardTitle, CardValue } from "./styles";
+import React from "react";
 
-export function CardNumber() {
+type CardNumberProps = {
+  title: string;
+  num: number;
+  color?: string;
+};
+
+export function CardNumber({ title, num, color }: CardNumberProps) {
   return (
     <Container>
-      <CardTitle>Terefas:</CardTitle>
-      <CardValue>4</CardValue>
+      <CardTitle>{title}</CardTitle>
+      <CardValue style={color ? { color: color } : {}}>{num}</CardValue>
     </Container>
   );
 }
