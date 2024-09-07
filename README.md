@@ -1,31 +1,28 @@
 # Lista de Tarefa - ResTIC 36
 
-## Descrição do Projeto
-
-Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na trilha de desenvolvimento mobile, atualizado até o final da 4ª unidade. Nessa fase, foi substituída a passagem de informações por props para o uso do useContext. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, que permite adicionar tarefas, visualizar a lista de tarefas, visualizar detalhes da tarefa e exibir uma contagem total de tarefas. O aplicativo também conta com a funcionalidade de exibir cartões (CardNumber), que podem ser usados para representar informações adicionais ou estatísticas.
+## Descrição do Projeto!
 
 
-<div style="display: flex; overflow-x: auto;">
-   <img src="https://github.com/user-attachments/assets/e986a9d7-4956-44ac-817c-d20a0fe45e6f" alt="Tela 1" style="height: 500px; margin-right: 10px;">
-</div>
+Este projeto faz parte da ResTIC 36 na trilha de desenvolvimento mobile, atualizado até a 4ª unidade. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, explorando o uso de hooks, `useState`, `useEffect` e `props`. A aplicação permite adicionar tarefas, visualizar a lista de tarefas e exibir uma contagem total de tarefas, divididas em tarefas criadas, em aberto e finalizadas.
+
+A aplicação agora inclui uma solução completa para gerenciar e atualizar a contagem das tarefas, bem como ordenar as tarefas conforme seu status (em aberto ou finalizadas). O uso da função `sort` garante que as tarefas sejam exibidas em ordem correta, e a contagem é atualizada automaticamente com base nas mudanças no estado.
+
+<p aling="center">
+   <img width="260" heitgh="100" src="https://github.com/user-attachments/assets/698b3a0b-3e53-496b-a02b-4fcbfe0da81f">
+</p>
 
 ### Funcionalidades Implementadas
 
-- **Adição de Tarefas**: Permite ao usuário adicionar novas tarefas com uma descrição (que ainda não estão exibindo o texto digitado no campo de entrada). O sistema verifica se o campo está vazio e se a tarefa já existe para evitar duplicações.
-- **Contagem de Tarefas**: Exibe a quantidade total de tarefas na interface.
+- **Adição de Tarefas**: Permite ao usuário adicionar novas tarefas com uma descrição. O sistema verifica se o campo está vazio e se a tarefa já existe para evitar duplicações.
+- **Contagem de Tarefas**: Exibe a quantidade total de tarefas, bem como a contagem de tarefas em aberto e finalizadas. Agora a aplicação atualiza corretamente essas contagens quando uma tarefa é criada, concluída ou removida.
+- **Ordenação de Tarefas**: As tarefas são ordenadas automaticamente com base em seu status, utilizando a função `sort` para garantir que as tarefas em aberto apareçam antes das tarefas finalizadas.
 - **Interface de Usuário**:
   - Campo de entrada para novas tarefas.
   - Botão com ícone para adicionar tarefas.
-  - Lista de tarefas com uma mensagem exibida quando a lista está vazia.
+  - Lista de tarefas "dividida" entre em aberto e finalizadas, com mensagens exibidas quando a lista está vazia.
+  - Remoção de Tarefas: Permite remover tarefas da lista. O usuário é solicitado a confirmar a exclusão antes que a tarefa seja removida.
   - Cartões (`CardNumber`) na parte superior para exibir informações ou estatísticas adicionais.
-- **Foco no Campo de Entrada**: Após adicionar uma tarefa, o campo de entrada perde o foco automaticamente.
-
-### Tecnologias Utilizadas
-
-- **React Native**: Para desenvolvimento do aplicativo móvel.
-- **React Navigation**: Para navegação entre as telas do aplicativo.
-- **Styled Components**: Para estilização e temas.
-- **React Context API**: Para gerenciamento de estado entre componentes e telas.
+- **Foco no Campo de Entrada**: Após adicionar uma tarefa, o campo de entrada perde o foco automaticamente e o teclado é fechado.
 
 ## Instruções para Executar o Projeto
 
@@ -48,3 +45,9 @@ Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na t
    ```bash
    npm start
    ```
+
+## Tecnologias Utilizadas
+
+- **React Native**: Framework para desenvolvimento móvel.
+- **Expo**: Plataforma para criar e executar aplicativos React Native.
+- **React**: Biblioteca para interfaces de usuário.
