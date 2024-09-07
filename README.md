@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Este projeto faz parte da ResTIC 36 na trilha de desenvolvimento mobile, na 3ª unidade. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native. O aplicativo permite adicionar tarefas, visualizar a lista de tarefas e exibir uma contagem total de tarefas. Ele também conta com a funcionalidade de exibir cartões (CardNumber), que podem ser usados para representar informações adicionais ou estatísticas.
+Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na trilha de desenvolvimento mobile, atualizado até o final da 4ª unidade. Nessa fase, foi substituída a passagem de informações por props para o uso do useContext. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, que permite adicionar tarefas, visualizar a lista de tarefas, visualizar detalhes da tarefa e exibir uma contagem total de tarefas. O aplicativo também conta com a funcionalidade de exibir cartões (CardNumber), que podem ser usados para representar informações adicionais ou estatísticas.
 
 
 <div style="display: flex; overflow-x: auto;">
@@ -20,13 +20,12 @@ Este projeto faz parte da ResTIC 36 na trilha de desenvolvimento mobile, na 3ª 
   - Cartões (`CardNumber`) na parte superior para exibir informações ou estatísticas adicionais.
 - **Foco no Campo de Entrada**: Após adicionar uma tarefa, o campo de entrada perde o foco automaticamente.
 
-### Funcionalidades Pendentes
+### Tecnologias Utilizadas
 
-- **Gerenciamento de Conclusão de Tarefas**: Adicionar a capacidade de marcar tarefas como concluídas.
-- **Remoção de Tarefas**: Implementar a funcionalidade para remover tarefas da lista.
-- **Persistência de Dados**: Garantir que as tarefas sejam salvas e persistidas entre as sessões do aplicativo.
-- **Melhorias na UI/UX**: Refinar a interface para uma melhor experiência do usuário, incluindo ajustes nos cartões e na visualização das tarefas.
-- **Testes e Validação**: Adicionar testes para verificar a estabilidade e o funcionamento correto das funcionalidades.
+- **React Native**: Para desenvolvimento do aplicativo móvel.
+- **React Navigation**: Para navegação entre as telas do aplicativo.
+- **Styled Components**: Para estilização e temas.
+- **React Context API**: Para gerenciamento de estado entre componentes e telas.
 
 ## Instruções para Executar o Projeto
 
@@ -49,9 +48,3 @@ Este projeto faz parte da ResTIC 36 na trilha de desenvolvimento mobile, na 3ª 
    ```bash
    npm start
    ```
-
-## Tecnologias Utilizadas
-
-- **React Native**: Framework para desenvolvimento móvel.
-- **Expo**: Plataforma para criar e executar aplicativos React Native.
-- **React**: Biblioteca para interfaces de usuário.
