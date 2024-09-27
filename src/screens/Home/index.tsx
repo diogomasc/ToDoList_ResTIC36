@@ -1,80 +1,50 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useContext } from "react";
 import {
   FlatList,
   Keyboard,
   StyleSheet,
   Text,
-  TextInput,
   View,
   Alert,
 } from "react-native";
 import { CardNumber } from "../../components/CardNumber";
 import { InputAddTask } from "../../components/InputAddTask";
 import { Task } from "../../components/Task";
+import { TaskContext } from "../../context/TaskContext";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import { TaskProps } from "../../utils/types";
 
+// Definir o esquema de validação usando Yup
+const TaskSchema = Yup.object().shape({
+  taskText: Yup.string()
+    .min(4, "No mínimo 4 caracteres")
+    .max(16, "No máximo 16 caracteres")
+    .required("Tarefa não pode ser vazia"),
+});
+
 export default function Home() {
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
-  const [taskText, setTaskText] = useState("");
-  const [countTask, setCountTask] = useState(0);
-  const [countOpen, setCountOpen] = useState(0);
-  const [countDone, setCountDone] = useState(0);
+  // Usar o TaskContext
+  const { tasks, createTask, handleTaskChangeStatus, handleTaskDelete } =
+    useContext(TaskContext);
 
-  const inputRef = useRef<TextInput>(null);
-
-  const handleAddTask = () => {
-    if (inputRef.current) {
-      inputRef.current.blur();
-      setTaskText("");
-    }
+  const handleAddTask = (taskText: string, resetForm: () => void) => {
     Keyboard.dismiss();
 
-    if (!taskText.trim()) {
-      return alert("Por favor, digite uma tarefa");
-    }
-
     if (tasks.some((task) => task.title === taskText)) {
-      return alert("Tarefa já existe");
+      Alert.alert("Erro", "Essa tarefa já existe");
+      return;
     }
 
-    const newTask = {
-      id: Date.now(),
-      title: taskText,
-      status: false,
-      onCheck: () => handleTaskChangeStatus(newTask),
-      onRemove: () => handleTaskDelete(newTask),
-    };
-
-    const updatedTasks = [...tasks, newTask];
-    const sortedTasks = updatedTasks.sort(
-      (a, b) => Number(a.status) - Number(b.status)
-    );
-    setTasks(sortedTasks);
+    createTask(taskText);
+    resetForm();
   };
 
-  useEffect(() => {
-    setCountTask(tasks.length);
-    setCountOpen(tasks.filter((task) => !task.status).length);
-    setCountDone(tasks.filter((task) => task.status).length);
-  }, [tasks]);
-
-  function handleTaskChangeStatus(taskToChange: TaskProps) {
-    const updatedTasks = tasks.map((task) =>
-      task.id === taskToChange.id ? { ...task, status: !task.status } : task
-    );
-
-    const sortedTasks = updatedTasks.sort(
-      (a, b) => Number(a.status) - Number(b.status)
-    );
-
-    setTasks(sortedTasks);
-  }
-
-  function handleTaskDelete(taskToDelete: TaskProps) {
+  const confirmTaskDelete = (taskToDelete: TaskProps) => {
     Alert.alert(
       "Atenção!",
-      `Tem certeza que deseja excluir esta tarefa?\n\nTarefa:\t\t${taskToDelete.title}`,
+      `Você tem certeza que deseja excluir esta tarefa?\n\nTarefa:\t\t${taskToDelete.title}`,
       [
         {
           text: "Não, não quero excluir.",
@@ -82,29 +52,51 @@ export default function Home() {
           style: "cancel",
         },
         {
-          text: "Sim, sim quero excluir.",
-          onPress: () => {
-            const updatedTasks = tasks.filter(
-              (task) => task.id !== taskToDelete.id
-            );
-            setTasks(updatedTasks);
-          },
-          style: "default",
+          text: "Sim, quero excluir.",
+          onPress: () => handleTaskDelete(taskToDelete),
+          style: "destructive",
         },
       ]
     );
-  }
+  };
+
+  // Calcular contagem de tarefas
+  const countTask = tasks.length;
+  const countOpen = tasks.filter((task) => !task.status).length;
+  const countDone = tasks.filter((task) => task.status).length;
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      <InputAddTask
-        inputRef={inputRef}
-        onPress={handleAddTask}
-        onChangeText={setTaskText}
-        value={taskText}
-      />
+      <Formik
+        initialValues={{ taskText: "" }}
+        validationSchema={TaskSchema}
+        onSubmit={(values, { resetForm }) => {
+          handleAddTask(values.taskText, resetForm);
+        }}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          errors,
+          touched,
+        }) => (
+          <View style={styles.formContainer}>
+            <InputAddTask
+              onPress={handleSubmit}
+              onChangeText={handleChange("taskText")}
+              onBlur={handleBlur("taskText")}
+              value={values.taskText}
+            />
+            {touched.taskText && errors.taskText && (
+              <Text style={styles.errorText}>{errors.taskText}</Text>
+            )}
+          </View>
+        )}
+      </Formik>
 
       <View style={styles.cardContainer}>
         <CardNumber title="Cadastradas" num={countTask} color="#1E1E1E" />
@@ -123,7 +115,7 @@ export default function Home() {
               title={item.title}
               status={item.status}
               onCheck={() => handleTaskChangeStatus(item)}
-              onRemove={() => handleTaskDelete(item)}
+              onRemove={() => confirmTaskDelete(item)}
             />
           )}
           ListEmptyComponent={() => (
@@ -149,7 +141,14 @@ const styles = StyleSheet.create({
     paddingTop: 64,
     gap: 16,
   },
-
+  formContainer: {
+    width: "100%",
+  },
+  errorText: {
+    color: "#FF8477",
+    fontSize: 12,
+    marginTop: 4,
+  },
   cardContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -157,23 +156,19 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 16,
   },
-
   tasks: {
     width: "100%",
     flex: 1,
   },
-
   listEmptyComponent: {
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
   },
-
   listEmptyComponentText: {
     color: "#fff",
     fontSize: 16,
   },
-
   tasksText: {
     color: "#fff",
     fontSize: 16,

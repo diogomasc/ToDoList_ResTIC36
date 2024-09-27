@@ -21,7 +21,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { TaskContext } from "../../context/TaskContextProps";
+import { TaskContext } from "../../context/TaskContext";
 
 type Props = NativeStackNavigationProp<RootStackParamList>;
 

@@ -2,8 +2,7 @@
 
 ## Descrição do Projeto!
 
-
-Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na trilha de desenvolvimento mobile, atualizado até o final da 4ª unidade. Nessa fase, foi substituída a passagem de informações por props para o uso do `useContext`. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, que permite adicionar tarefas, visualizar a lista de tarefas, visualizar detalhes da tarefa e exibir uma contagem total de tarefas. O aplicativo também conta com a funcionalidade de exibir cartões (CardNumber), que podem ser usados para representar informações adicionais ou estatísticas.
+Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na trilha de desenvolvimento mobile, atualizado até o final da 6ª unidade. Nessa fase, o projeto já conta com `useContext`, `AsyncStorage` e validação de formulário com `Formik` e `Yup`. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, que permite adicionar tarefas, visualizar a lista de tarefas, visualizar detalhes da tarefa e exibir uma contagem total de tarefas. O aplicativo também conta com a funcionalidade de exibir cartões (`CardNumber`), que podem ser usados para representar informações adicionais ou estatísticas.
 
 A aplicação inclui uma solução completa para gerenciar e atualizar a contagem das tarefas, bem como ordenar as tarefas conforme seu status (em aberto ou finalizadas). O uso da função `sort` garante que as tarefas sejam exibidas em ordem correta, e a contagem é atualizada automaticamente com base nas mudanças no estado.
 
@@ -34,16 +33,19 @@ A aplicação inclui uma solução completa para gerenciar e atualizar a contage
 ## Instruções para Executar o Projeto
 
 1. **Clone o Repositório**:
+
    ```bash
    git clone https://github.com/diogomasc/ToDoList_ResTIC36.git
    ```
 
 2. **Navegue até o Diretório do Projeto**:
+
    ```bash
    cd ToDoList_ResTIC36
    ```
 
 3. **Instale as Dependências**:
+
    ```bash
    npm install
    ```

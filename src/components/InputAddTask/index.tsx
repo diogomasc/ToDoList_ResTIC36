@@ -5,6 +5,7 @@ type Props = {
   inputRef: React.RefObject<TextInput>;
   onPress: () => void;
   onChangeText: (text: string) => void;
+  onBlur: (e: any) => void;
   value: string;
 };
 
@@ -12,6 +13,7 @@ export function InputAddTask({
   inputRef,
   onPress,
   onChangeText,
+  onBlur,
   value,
 }: Props) {
   return (
@@ -23,6 +25,7 @@ export function InputAddTask({
         keyboardType="default"
         value={value}
         onChangeText={onChangeText}
+        onBlur={onBlur}
       />
       <InputButton onPress={onPress}>
         <Feather name="plus-square" size={24} color="#FFF" />

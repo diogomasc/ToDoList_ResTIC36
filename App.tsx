@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import Home from "./src/screens/Home";
 import Details from "./src/screens/Details";
-import TaskProvider from "./src/context/TaskContextProps";
+import TaskProvider from "./src/context/TaskContext";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
