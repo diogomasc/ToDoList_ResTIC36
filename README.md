@@ -4,7 +4,7 @@
 
 Este projeto faz parte da residência em tecnologia ResTIC 36, pela CEPEDI, na trilha de desenvolvimento mobile, atualizado até o final da 6ª unidade. Nessa fase, o projeto já conta com `useContext`, `AsyncStorage` e validação de formulário com `Formik` e `Yup`. O objetivo é criar uma aplicação básica de lista de tarefas utilizando React Native, que permite adicionar tarefas, visualizar a lista de tarefas, visualizar detalhes da tarefa e exibir uma contagem total de tarefas. O aplicativo também conta com a funcionalidade de exibir cartões (`CardNumber`), que podem ser usados para representar informações adicionais ou estatísticas.
 
-A aplicação inclui uma solução completa para gerenciar e atualizar a contagem das tarefas, bem como ordenar as tarefas conforme seu status (em aberto ou finalizadas). O uso da função `sort` garante que as tarefas sejam exibidas em ordem correta, e a contagem é atualizada automaticamente com base nas mudanças no estado.
+A aplicação inclui uma solução completa para gerenciar e atualizar a contagem das tarefas, bem como ordenar as tarefas conforme seu status (em aberto ou finalizadas). O uso da função `sort` e `useMemo` garantem que as tarefas sejam exibidas em ordem correta, e a contagem é atualizada automaticamente com base nas mudanças no estado.
 
 <p aling="center">
    <img width="260" heitgh="100" src="https://github.com/user-attachments/assets/698b3a0b-3e53-496b-a02b-4fcbfe0da81f">

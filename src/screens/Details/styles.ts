@@ -1,35 +1,36 @@
-import styled from "styled-components/native/";
+import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
   background-color: #28385e;
   padding: 16px;
   padding-top: 64px;
-  gap: 16px;
 `;
 
 export const TopContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 16px;
 `;
 
 export const TopButton = styled.TouchableOpacity`
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
-  gap: 16px;
 `;
 
 export const TopText = styled.Text`
   color: #fff;
   font-size: 16px;
+  margin-left: 16px;
 `;
 
 export const TitleContainer = styled.View`
   background-color: #304163;
   border-radius: 4px;
   padding: 8px 16px;
+  margin-bottom: 16px;
 `;
 
 export const Title = styled.Text`
@@ -40,20 +41,20 @@ export const Title = styled.Text`
 export const TextStatus = styled.Text`
   color: #fff;
   font-size: 16px;
+  margin-bottom: 8px;
 `;
 
 export const StatusContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  gap: 16px;
 `;
 
 export const StatusCard = styled.View`
   background-color: #304163;
   border-radius: 4px;
   flex-direction: row;
-  gap: 16;
   flex: 1;
+  margin-right: 16px;
 `;
 
 export const StatusIcon = styled.View`
